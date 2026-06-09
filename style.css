@@ -1,0 +1,552 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Cormorant Garamond', serif;
+    background: radial-gradient(ellipse at center, #0a0a1a 0%, #06060f 100%);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Canvas Background */
+#bgCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+#particleCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.container {
+    position: relative;
+    z-index: 10;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+/* Intro Screen */
+.intro-screen {
+    text-align: center;
+    padding: 2rem 2rem 3rem;
+    background: rgba(10, 10, 26, 0.7);
+    backdrop-filter: blur(10px);
+    border-radius: 60px;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    box-shadow: 0 0 60px rgba(212, 175, 55, 0.1);
+    position: relative;
+}
+
+.hat-container-3d {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto 1rem;
+}
+
+.hat-crown {
+    margin-top: -2rem;
+    margin-bottom: 1rem;
+}
+
+.hat-crown i {
+    font-size: 2rem;
+    color: #ffd700;
+    filter: drop-shadow(0 0 10px #ffd700);
+    animation: crownFloat 3s ease-in-out infinite;
+}
+
+@keyframes crownFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.intro-screen h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.2rem;
+    background: linear-gradient(135deg, #ffd700, #ff8c00, #ffd700);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.tagline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    color: #d4af37;
+    font-style: italic;
+    margin-bottom: 1rem;
+}
+
+.sub-text {
+    font-family: 'Cormorant Garamond', serif;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.destiny-items {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.9rem;
+    color: #ffd700;
+}
+
+.primary-btn {
+    background: linear-gradient(135deg, #8B7355, #DAA520, #8B7355);
+    background-size: 200% 200%;
+    border: 1px solid #ffd700;
+    color: #1a1a2e;
+    padding: 0.8rem 2rem;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    font-family: 'Cormorant Garamond', serif;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+.primary-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+    letter-spacing: 1px;
+}
+
+.parchment-seal {
+    width: 40px;
+    height: 40px;
+    background: radial-gradient(circle, #d4af37, #8B7355);
+    border-radius: 50%;
+    margin: 1.5rem auto 0;
+    position: relative;
+}
+
+.parchment-seal::before {
+    content: '⚡';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #1a1a2e;
+    font-family: 'Cormorant Garamond', serif;
+}
+
+/* Quiz Screen */
+.quiz-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    background: rgba(0,0,0,0.4);
+    padding: 0.8rem 1.2rem;
+    border-radius: 60px;
+    backdrop-filter: blur(5px);
+}
+
+.candle-left, .candle-right {
+    position: relative;
+    font-size: 1.2rem;
+    color: #d4af37;
+}
+
+.candle-flame {
+    position: absolute;
+    width: 4px;
+    height: 10px;
+    background: radial-gradient(circle, #ffd700, #ff4500);
+    border-radius: 50%;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: flicker 0.3s infinite alternate;
+}
+
+@keyframes flicker {
+    from { opacity: 0.7; height: 8px; }
+    to { opacity: 1; height: 12px; }
+}
+
+.progress-container {
+    flex: 1;
+    text-align: center;
+}
+
+.progress-label {
+    font-family: 'Cormorant Garamond', serif;
+    color: #d4af37;
+    font-size: 0.8rem;
+    margin-bottom: 0.3rem;
+    letter-spacing: 1px;
+}
+
+.progress-bar-bg {
+    height: 4px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, #d4af37, #ffd700);
+    border-radius: 10px;
+    transition: width 0.5s ease;
+}
+
+/* Question Card */
+.question-card {
+    background: rgba(10, 10, 26, 0.85);
+    backdrop-filter: blur(15px);
+    border-radius: 40px;
+    padding: 2rem;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    position: relative;
+    transform-style: preserve-3d;
+}
+
+.hat-icon-small {
+    font-size: 2rem;
+    color: #d4af37;
+    text-align: center;
+    margin-bottom: 1rem;
+    animation: hatWiggle 3s infinite;
+}
+
+@keyframes hatWiggle {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(5deg); }
+    75% { transform: rotate(-5deg); }
+}
+
+.question-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem;
+    color: #ffd700;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    line-height: 1.4;
+    font-weight: 600;
+}
+
+.options-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.option-btn {
+    background: rgba(20, 20, 40, 0.8);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    padding: 0.8rem 1.2rem;
+    border-radius: 60px;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-align: left;
+    font-size: 1rem;
+    color: rgba(255,255,255,0.8);
+    font-family: 'Cormorant Garamond', serif;
+}
+
+.option-btn::before {
+    content: '✦';
+    margin-right: 10px;
+    color: #d4af37;
+}
+
+.option-btn:hover {
+    border-color: #d4af37;
+    background: rgba(212, 175, 55, 0.1);
+    transform: translateX(5px);
+}
+
+.option-btn.selected {
+    border-color: #ffd700;
+    background: linear-gradient(90deg, rgba(212,175,55,0.2), rgba(212,175,55,0.05));
+    box-shadow: 0 0 15px rgba(212,175,55,0.2);
+}
+
+.quiz-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1.5rem;
+    gap: 1rem;
+}
+
+.secondary-btn {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    padding: 0.6rem 1.5rem;
+    border-radius: 50px;
+    color: #d4af37;
+    cursor: pointer;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+}
+
+.reveal-btn {
+    background: linear-gradient(135deg, #7c3aed, #a855f7);
+    border: none;
+    padding: 0.6rem 1.5rem;
+    border-radius: 50px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+}
+
+/* Result Screen */
+.result-card {
+    background: linear-gradient(135deg, rgba(10,10,26,0.95), rgba(5,5,15,0.95));
+    backdrop-filter: blur(20px);
+    border-radius: 60px;
+    padding: 2rem;
+    text-align: center;
+    border: 2px solid rgba(212, 175, 55, 0.4);
+    position: relative;
+}
+
+.result-header {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.house-crown {
+    position: absolute;
+    top: -35px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.8rem;
+    color: #ffd700;
+}
+
+.house-badge, .ilm-badge {
+    font-size: 3rem;
+}
+
+.house-badge.gryffindor { color: #ae0001; text-shadow: 0 0 15px #ae0001; }
+.house-badge.hufflepuff { color: #ecb939; text-shadow: 0 0 15px #ecb939; }
+.house-badge.ravenclaw { color: #222f5b; text-shadow: 0 0 15px #222f5b; }
+.house-badge.slytherin { color: #2a623d; text-shadow: 0 0 15px #2a623d; }
+
+.ilm-badge.thunderbird { color: #d4af37; text-shadow: 0 0 15px #d4af37; }
+.ilm-badge.wampus { color: #b8860b; text-shadow: 0 0 15px #b8860b; }
+.ilm-badge.horned { color: #2a623d; text-shadow: 0 0 15px #2a623d; }
+.ilm-badge.pukwudgie { color: #8b5cf6; text-shadow: 0 0 15px #8b5cf6; }
+
+#houseTitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5rem;
+    background: linear-gradient(135deg, #ffd700, #ff8c00);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin: 0.5rem 0;
+    font-weight: 700;
+}
+
+.house-desc {
+    font-family: 'Cormorant Garamond', serif;
+    color: rgba(255,255,255,0.7);
+    font-size: 1rem;
+}
+
+.house-percentages {
+    margin: 1.5rem 0;
+}
+
+.percentage-bar {
+    margin: 0.6rem 0;
+}
+
+.percentage-label {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.8rem;
+    margin-bottom: 0.2rem;
+    color: #d4af37;
+}
+
+.percentage-fill {
+    height: 5px;
+    border-radius: 10px;
+    transition: width 1s ease;
+}
+
+.fill-gryffindor { background: #ae0001; }
+.fill-hufflepuff { background: #ecb939; }
+.fill-ravenclaw { background: #222f5b; }
+.fill-slytherin { background: #2a623d; }
+
+.result-details {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.8rem;
+    margin: 1.5rem 0;
+}
+
+.detail-card {
+    background: rgba(20, 20, 40, 0.6);
+    border-radius: 15px;
+    padding: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.detail-icon i {
+    font-size: 1.2rem;
+    color: #d4af37;
+}
+
+.detail-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.6rem;
+    letter-spacing: 1px;
+    color: #d4af37;
+    font-weight: 600;
+}
+
+.detail-content span {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.7);
+}
+
+.result-actions {
+    display: flex;
+    gap: 0.8rem;
+    margin: 1rem 0;
+    flex-wrap: wrap;
+}
+
+.share-btn, .speak-btn, .retake-btn {
+    flex: 1;
+    padding: 0.6rem;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    font-family: 'Cormorant Garamond', serif;
+}
+
+.share-btn {
+    background: #10b981;
+    color: white;
+    border: none;
+}
+
+.speak-btn {
+    background: #8b5cf6;
+    color: white;
+    border: none;
+}
+
+.retake-btn {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid #d4af37;
+    color: #d4af37;
+}
+
+.famous-quote {
+    margin-top: 1rem;
+    padding: 0.8rem;
+    background: rgba(0,0,0,0.3);
+    border-radius: 25px;
+    font-style: italic;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+}
+
+.famous-quote i {
+    color: #d4af37;
+}
+
+.wax-seal {
+    width: 30px;
+    height: 30px;
+    background: radial-gradient(circle, #8B0000, #5a0000);
+    border-radius: 50%;
+    margin: 1rem auto 0;
+    position: relative;
+}
+
+.wax-seal::before {
+    content: '⚡';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #d4af37;
+    font-size: 0.7rem;
+    font-family: 'Cormorant Garamond', serif;
+}
+
+.saved-results {
+    margin-top: 1.5rem;
+    background: rgba(0,0,0,0.4);
+    backdrop-filter: blur(10px);
+    border-radius: 30px;
+    padding: 1.2rem;
+}
+
+.saved-results h3 {
+    font-family: 'Cormorant Garamond', serif;
+    color: #d4af37;
+    font-size: 1rem;
+    margin-bottom: 0.8rem;
+    letter-spacing: 1px;
+}
+
+.history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.history-item {
+    background: rgba(20,20,40,0.6);
+    padding: 0.5rem 0.8rem;
+    border-radius: 25px;
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.85rem;
+}
+
+@media (max-width: 650px) {
+    .container { padding: 1rem; }
+    .question-text { font-size: 1.2rem; }
+    .result-details { grid-template-columns: 1fr; }
+    .intro-screen h1 { font-size: 2rem; }
+    .result-actions { flex-direction: column; }
+}
